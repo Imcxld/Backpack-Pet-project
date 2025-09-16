@@ -40,6 +40,7 @@ namespace Backpack.Core
             {
                 Console.WriteLine($"{i}. {item.Title} with weight {item.Weight}");
             }
+            Console.WriteLine($"Total weight of backpack: {backpack.TotalWeight}/{backpack.MaxWeight}");
         }
 
         public void GetItem(Backpack backpack, string itemTitle)
@@ -81,7 +82,33 @@ namespace Backpack.Core
 
         public void UpdateItem(Backpack backpack, string itemTitle, string updItemTitle, byte updItemWeight)
         {
-            throw new NotImplementedException();
+            var item = backpack.Items.FirstOrDefault(i => i.Title == itemTitle);
+
+            if (item != null)
+            {
+                backpack.TotalWeight -= item.Weight;
+
+                if (updItemWeight > (backpack.MaxWeight - backpack.TotalWeight))
+                {
+                    Console.WriteLine("Error! The new weight of your item exceeds the capacity of your backpack");
+                    return;
+                }
+                else if (updItemWeight == 0)
+                {
+                    Console.WriteLine("Error! The new weight of your item cannot be zero");
+                    return;
+                }
+
+                var oldTitle = item.Title;
+                var oldWeight = item.Weight;
+
+                item.Title = updItemTitle;
+                item.Weight = updItemWeight;
+
+                backpack.TotalWeight += item.Weight;
+
+                Console.WriteLine($"Successfull! You have updated item: title({oldTitle}) => {item.Title}, weight ({oldWeight}) => {item.Weight}");
+            }
         }
     }
 }

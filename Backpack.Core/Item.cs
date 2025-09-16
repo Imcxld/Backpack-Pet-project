@@ -2,8 +2,8 @@
 {
     public class Item
     {
-        public byte Weight { get; private set; }
-        public string Title { get; private set; }
+        public byte Weight { get; set; }
+        public string Title { get; set; }
 
         public Item(string title, byte weight)
         {
