@@ -1,6 +1,4 @@
 ﻿using Backpack.Core.Interfaces;
-using System.Collections.Concurrent;
-using System.Linq;
 
 namespace Backpack.Core
 {
@@ -10,37 +8,37 @@ namespace Backpack.Core
         {
             if (itemWeight > (backpack.MaxWeight - backpack.TotalWeight))
             {
-                Console.WriteLine("Error! The weight of your item exceeds the capacity of your backpack");
+                Logger.PrintError("Error! The weight of your item exceeds the capacity of your backpack");
                 return;
             }
             else if (itemWeight == 0)
             {
-                Console.WriteLine("Error! The weight of your item cannot be zero");
+                Logger.PrintError("Error! The weight of your item cannot be zero");
                 return;
             }
 
             backpack.Items.Add(new Item(itemTitle, itemWeight));
             backpack.TotalWeight += itemWeight;
 
-            Console.WriteLine($"Excellent! Item {itemTitle} weighing {itemWeight} is packed in the backpack");
-            Console.WriteLine($"Total weight is now: {backpack.TotalWeight}");
+            Logger.PrintSuccess($"Excellent! Item {itemTitle} weighing {itemWeight} is packed in the backpack");
+            Logger.Print($"Total weight is now: {backpack.TotalWeight}");
         }
 
         public void GetAllItems(Backpack backpack)
         {
             if (backpack.Items.Count == 0)
             {
-                Console.WriteLine($"Error! Your backpack has zero items");
+                Logger.PrintError($"Error! Your backpack has zero items");
                 return;
             }
 
             byte i = 1;
-            Console.WriteLine("In your backpack: ");
+            Logger.Print("In your backpack: ");
             foreach (Item item in backpack.Items)
             {
-                Console.WriteLine($"{i}. {item.Title} with weight {item.Weight}");
+                Logger.Print($"{i}. {item.Title} with weight {item.Weight}");
             }
-            Console.WriteLine($"Total weight of backpack: {backpack.TotalWeight}/{backpack.MaxWeight}");
+            Logger.Print($"Total weight of backpack: {backpack.TotalWeight}/{backpack.MaxWeight}");
         }
 
         public void GetItem(Backpack backpack, string itemTitle)
@@ -49,11 +47,12 @@ namespace Backpack.Core
 
             if (item != null)
             {
-                Console.WriteLine($"Your item in backpack: {item.Title} with weight {item.Weight}");
+                Logger.Print($"Your item in backpack: {item.Title} with weight {item.Weight}");
             }
             else
             {
-                Console.WriteLine("Error! Your backpack does not have this item");
+                Logger.PrintError("Error! Your backpack does not have this item");
+                return;
             }
         }
 
@@ -69,14 +68,15 @@ namespace Backpack.Core
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Logger.PrintCriticalError(ex.Message);
                 }
 
-                Console.WriteLine($"Successfull! Item {item?.Title} has been deleted");
+                Logger.PrintSuccess($"Successfull! Item {item?.Title} has been deleted");
             }
             else
             {
-                Console.WriteLine("Error! Your backpack does not have this item");
+                Logger.PrintError("Error! Your backpack does not have this item");
+                return;
             }
         }
 
@@ -90,12 +90,14 @@ namespace Backpack.Core
 
                 if (updItemWeight > (backpack.MaxWeight - backpack.TotalWeight))
                 {
-                    Console.WriteLine("Error! The new weight of your item exceeds the capacity of your backpack");
+                    Logger.PrintError("Error! The new weight of your item exceeds the capacity of your backpack");
+                    backpack.TotalWeight += item.Weight;
                     return;
                 }
                 else if (updItemWeight == 0)
                 {
-                    Console.WriteLine("Error! The new weight of your item cannot be zero");
+                    Logger.PrintError("Error! The new weight of your item cannot be zero");
+                    backpack.TotalWeight += item.Weight;
                     return;
                 }
 
@@ -107,7 +109,7 @@ namespace Backpack.Core
 
                 backpack.TotalWeight += item.Weight;
 
-                Console.WriteLine($"Successfull! You have updated item: title({oldTitle}) => {item.Title}, weight ({oldWeight}) => {item.Weight}");
+                Logger.PrintSuccess($"Successfull! You have updated item: title({oldTitle}) => {item.Title}, weight ({oldWeight}) => {item.Weight}");
             }
         }
     }
