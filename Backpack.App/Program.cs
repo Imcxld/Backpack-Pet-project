@@ -12,6 +12,8 @@ namespace Backpack.App
             handler.AddItem(backpack, "laptop", 10);
             handler.GetAllItems(backpack);
             handler.GetItem(backpack, "laptop");
+            handler.RemoveItem(backpack, "laptop");
+            handler.GetItem(backpack, "laptop");
         }
     }
 }

@@ -58,7 +58,25 @@ namespace Backpack.Core
 
         public void RemoveItem(Backpack backpack, string itemTitle)
         {
-            throw new NotImplementedException();
+            var item = backpack.Items.FirstOrDefault(i => i.Title == itemTitle);
+
+            if (item != null)
+            {
+                try
+                {
+                    backpack.Items.Remove(item);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+                Console.WriteLine($"Successfull! Item {item?.Title} has been deleted");
+            }
+            else
+            {
+                Console.WriteLine("Error! Your backpack does not have this item");
+            }
         }
 
         public void UpdateItem(Backpack backpack, string itemTitle, string updItemTitle, byte updItemWeight)
