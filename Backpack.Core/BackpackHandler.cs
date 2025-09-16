@@ -1,4 +1,6 @@
 ﻿using Backpack.Core.Interfaces;
+using System.Collections.Concurrent;
+using System.Linq;
 
 namespace Backpack.Core
 {
@@ -42,7 +44,16 @@ namespace Backpack.Core
 
         public void GetItem(Backpack backpack, string itemTitle)
         {
-            throw new NotImplementedException();
+            var item = backpack.Items.FirstOrDefault(i => i.Title == itemTitle);
+
+            if (item != null)
+            {
+                Console.WriteLine($"Your item in backpack: {item.Title} with weight {item.Weight}");
+            }
+            else
+            {
+                Console.WriteLine("Error! Your backpack does not have this item");
+            }
         }
 
         public void RemoveItem(Backpack backpack, string itemTitle)
