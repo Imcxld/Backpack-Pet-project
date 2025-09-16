@@ -1,9 +1,4 @@
 ﻿using Backpack.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backpack.Core
 {
@@ -11,7 +6,7 @@ namespace Backpack.Core
     {
         public void AddItem(Backpack backpack, string itemTitle, byte itemWeight)
         {
-            if (itemWeight > (backpack.TotalWeight - backpack.MaxWeight))
+            if (itemWeight > (backpack.MaxWeight - backpack.TotalWeight))
             {
                 Console.WriteLine("Error! The weight of your item exceeds the capacity of your backpack");
                 return;
@@ -31,7 +26,18 @@ namespace Backpack.Core
 
         public void GetAllItems(Backpack backpack)
         {
-            throw new NotImplementedException();
+            if (backpack.Items.Count == 0)
+            {
+                Console.WriteLine($"Error! Your backpack has zero items");
+                return;
+            }
+
+            byte i = 1;
+            Console.WriteLine("In your backpack: ");
+            foreach (Item item in backpack.Items)
+            {
+                Console.WriteLine($"{i}. {item.Title} with weight {item.Weight}");
+            }
         }
 
         public void GetItem(Backpack backpack, string itemTitle)

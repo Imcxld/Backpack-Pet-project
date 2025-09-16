@@ -6,7 +6,11 @@ namespace Backpack.App
     {
         static void Main(string[] args)
         {
+            Core.Backpack backpack = new Core.Backpack();
+            BackpackHandler handler = new BackpackHandler();
 
+            handler.AddItem(backpack, "laptop", 10);
+            handler.GetAllItems(backpack);
         }
     }
 }
