@@ -10,6 +10,9 @@ namespace Backpack.App
         {
             Core.Backpack backpack = new Core.Backpack();
             BackpackHandler handler = new BackpackHandler();
+            handler.Notify += DisplayNotificationMessage;
+
+            void DisplayNotificationMessage(string message) => Logger.PrintEventNotification(message);
 
             do
             {
@@ -184,6 +187,11 @@ namespace Backpack.App
                 }
                 while (true);
             }
+        }
+
+        private static void Handler_Notify(string message)
+        {
+            throw new NotImplementedException();
         }
     }
 }

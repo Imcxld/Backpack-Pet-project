@@ -4,6 +4,9 @@ namespace Backpack.Core
 {
     public class BackpackHandler : IBackpackHandler
     {
+        public delegate void BackpackDelegate(string message);
+        public event BackpackDelegate? Notify;
+
         public void AddItem(Backpack backpack, string itemTitle, byte itemWeight)
         {
             if (itemWeight > (backpack.MaxWeight - backpack.TotalWeight))
@@ -19,6 +22,8 @@ namespace Backpack.Core
 
             backpack.Items.Add(new Item(itemTitle, itemWeight));
             backpack.TotalWeight += itemWeight;
+
+            Notify?.Invoke("New item added to backpack list.");
 
             Logger.PrintSuccess($"Excellent! Item {itemTitle} weighing {itemWeight} is packed in the backpack");
             Logger.Print($"Total weight is now: {backpack.TotalWeight}");
@@ -72,6 +77,8 @@ namespace Backpack.Core
                     Logger.PrintCriticalError(ex.Message);
                 }
 
+                Notify?.Invoke("Item removed from backpack list.");
+
                 Logger.PrintSuccess($"Successfull! Item {item?.Title} has been deleted");
             }
             else
@@ -109,6 +116,8 @@ namespace Backpack.Core
                 item.Weight = updItemWeight;
 
                 backpack.TotalWeight += item.Weight;
+
+                Notify?.Invoke("Item from backpack list has been updated.");
 
                 Logger.PrintSuccess($"Successfull! You have updated item: title({oldTitle}) => {item.Title}, weight ({oldWeight}) => {item.Weight}");
             }

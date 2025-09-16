@@ -35,5 +35,12 @@ namespace Backpack.Core
             Console.WriteLine("\nSystem -> " + message + "\n");
             Console.ForegroundColor = ConsoleColor.Gray;
         }
+
+        public static void PrintEventNotification(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\nNotification handler -> " + message + "\n");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
     }
 }
