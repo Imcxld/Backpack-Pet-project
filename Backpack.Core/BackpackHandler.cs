@@ -37,6 +37,7 @@ namespace Backpack.Core
             foreach (Item item in backpack.Items)
             {
                 Logger.Print($"{i}. {item.Title} with weight {item.Weight}");
+                i++;
             }
             Logger.Print($"Total weight of backpack: {backpack.TotalWeight}/{backpack.MaxWeight}");
         }
